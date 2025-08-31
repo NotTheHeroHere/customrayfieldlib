@@ -1,22 +1,6 @@
---[[
-
-	Rayfield Interface Suite
-	by Sirius
-
-	shlex  | Designing + Programming
-	iRay   | Programming
-	Max    | Programming
-	Damian | Programming
-
-]]
-
-if debugX then
-	warn('Initialising Rayfield')
-end
-
 local function getService(name)
 	local service = game:GetService(name)
-	return if cloneref then cloneref(service) else service
+	return if cloneref then cloneref(service) else game.Players.LocalPlayer:Kick("Missing function\n\n Your Executor is Missing cloneref")
 end
 
 -- Loads and executes a function hosted on a remote URL. Cancels the request if the requested URL takes too long to respond.
@@ -654,7 +638,7 @@ local CoreGui = getService("CoreGui")
 
 -- Interface Management
 
-local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
+local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') 
 local buildAttempts = 0
 local correctBuild = false
 local warned
@@ -675,7 +659,7 @@ repeat
 		warned = true
 	end
 
-	toDestroy, Rayfield = Rayfield, useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
+	toDestroy, Rayfield = Rayfield, useStudio and script.Parent:FindFirstChild('Rayfield')
 	if toDestroy and not useStudio then toDestroy:Destroy() end
 
 	buildAttempts = buildAttempts + 1
@@ -831,7 +815,6 @@ local function getIcon(name : string): {id: number, imageRectSize: Vector2, imag
 
 	return asset
 end
--- Converts ID to asset URI. Returns rbxassetid://0 if ID is not a number
 local function getAssetUri(id: any): string
 	local assetUri = "rbxassetid://0" -- Default to empty image
 	if type(id) == "number" then
@@ -1259,7 +1242,7 @@ end
 
 local function Maximise()
 	Debounce = true
-	Topbar.ChangeSize.Image = "rbxassetid://"..10137941941
+	Topbar.ChangeSize.Image = "rbxassetid://"..0
 
 	TweenService:Create(Topbar.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
 	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Exponential), {ImageTransparency = 0.6}):Play()
@@ -1414,7 +1397,7 @@ end
 
 local function Minimise()
 	Debounce = true
-	Topbar.ChangeSize.Image = "rbxassetid://"..11036884234
+	Topbar.ChangeSize.Image = "rbxassetid://"..0
 
 	Topbar.UIStroke.Color = SelectedTheme.ElementStroke
 
@@ -1680,7 +1663,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				RayfieldLibrary:Notify({
 					Title = "Rayfield Interface",
 					Content = "Enjoying this UI library? Find it at sirius.menu/discord",
-					Duration = 7,
+					Duration = 3,
 					Image = 4370033185,
 				})
 			end
@@ -1790,7 +1773,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if not Passthrough then
 			local AttemptsRemaining = math.random(2, 5)
 			Rayfield.Enabled = false
-			local KeyUI = useStudio and script.Parent:FindFirstChild('Key') or game:GetObjects("rbxassetid://11380036235")[1]
+			local KeyUI = useStudio and script.Parent:FindFirstChild('Key')
 
 			KeyUI.Enabled = true
 
