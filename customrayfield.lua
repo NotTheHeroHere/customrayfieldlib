@@ -2652,27 +2652,6 @@ local correctBuild = false
 local warned
 local globalLoaded
 local rayfieldDestroyed = false -- True when RayfieldLibrary:Destroy() is called
-
-repeat
-	if Rayfield:FindFirstChild('Build') and Rayfield.Build.Value == InterfaceBuild then
-		correctBuild = true
-		break
-	end
-
-	correctBuild = false
-
-	if not warned then
-		warn('Rayfield | Build Mismatch')
-		print('Rayfield may encounter issues as you are running an incompatible interface version ('.. ((Rayfield:FindFirstChild('Build') and Rayfield.Build.Value) or 'No Build') ..').\n\nThis version of Rayfield is intended for interface build '..InterfaceBuild..'.')
-		warned = true
-	end
-
-	toDestroy, Rayfield = Rayfield, useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://0")[1]
-	if toDestroy and not useStudio then toDestroy:Destroy() end
-
-	buildAttempts = buildAttempts + 1
-until buildAttempts >= 2
-
 Rayfield.Enabled = false
 
 if gethui then
