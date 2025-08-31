@@ -1,6 +1,6 @@
 local function getService(name)
 	local service = game:GetService(name)
-	return if cloneref then cloneref(service) else game.Players.LocalPlayer:Kick("Missing function\n\n Your Executor is Missing cloneref")
+	return if cloneref then cloneref(service) else game.Players.LocalPlayer:Kick("MISSING")
 end
 
 -- Loads and executes a function hosted on a remote URL. Cancels the request if the requested URL takes too long to respond.
@@ -638,12 +638,32 @@ local CoreGui = getService("CoreGui")
 
 -- Interface Management
 
-local Rayfield = script.Parent:FindFirstChild('Rayfield')
+local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://0")[1]
 local buildAttempts = 0
 local correctBuild = false
 local warned
 local globalLoaded
 local rayfieldDestroyed = false -- True when RayfieldLibrary:Destroy() is called
+
+repeat
+	if Rayfield:FindFirstChild('Build') and Rayfield.Build.Value == InterfaceBuild then
+		correctBuild = true
+		break
+	end
+
+	correctBuild = false
+
+	if not warned then
+		warn('Rayfield | Build Mismatch')
+		print('Rayfield may encounter issues as you are running an incompatible interface version ('.. ((Rayfield:FindFirstChild('Build') and Rayfield.Build.Value) or 'No Build') ..').\n\nThis version of Rayfield is intended for interface build '..InterfaceBuild..'.')
+		warned = true
+	end
+
+	toDestroy, Rayfield = Rayfield, useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
+	if toDestroy and not useStudio then toDestroy:Destroy() end
+
+	buildAttempts = buildAttempts + 1
+until buildAttempts >= 2
 
 Rayfield.Enabled = false
 
@@ -795,6 +815,7 @@ local function getIcon(name : string): {id: number, imageRectSize: Vector2, imag
 
 	return asset
 end
+-- Converts ID to asset URI. Returns rbxassetid://0 if ID is not a number
 local function getAssetUri(id: any): string
 	local assetUri = "rbxassetid://0" -- Default to empty image
 	if type(id) == "number" then
@@ -1643,7 +1664,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				RayfieldLibrary:Notify({
 					Title = "Rayfield Interface",
 					Content = "Enjoying this UI library? Find it at sirius.menu/discord",
-					Duration = 3,
+					Duration = 7,
 					Image = 4370033185,
 				})
 			end
@@ -1753,7 +1774,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if not Passthrough then
 			local AttemptsRemaining = math.random(2, 5)
 			Rayfield.Enabled = false
-			local KeyUI = useStudio and script.Parent:FindFirstChild('Key')
+			local KeyUI = useStudio and script.Parent:FindFirstChild('Key') or game:GetObjects("rbxassetid://0")[1]
 
 			KeyUI.Enabled = true
 
