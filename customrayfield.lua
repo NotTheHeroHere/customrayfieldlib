@@ -1,6 +1,6 @@
 local function getService(name)
 	local service = game:GetService(name)
-	return if cloneref then cloneref(service) else game.Players.LocalPlayer:Kick("MISSING")
+	return if cloneref then cloneref(service) else game.Players.LocalPlayer:Kick("Missing executor function\n\nYour executor is missing cloneref")
 end
 
 -- Loads and executes a function hosted on a remote URL. Cancels the request if the requested URL takes too long to respond.
